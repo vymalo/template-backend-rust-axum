@@ -277,7 +277,6 @@ dependencies = [
 name = "backend-rust-hyper"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "app-models",
  "axum 0.7.9",
  "axum-otel-metrics",
@@ -288,7 +287,6 @@ dependencies = [
  "opentelemetry-prometheus",
  "opentelemetry_sdk",
  "prometheus",
- "thiserror 2.0.9",
  "tokio",
  "tower-http",
  "tracing",

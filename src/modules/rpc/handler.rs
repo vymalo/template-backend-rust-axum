@@ -1,11 +1,11 @@
 use crate::modules::rpc::is_accept_json::is_accept_json;
 use crate::services::schools::handler::{get_schools, get_single_school};
-use anyhow::Result;
 use app_models::api::api::ApiResponse;
 use app_models::api::method_name::MethodName;
 use app_models::errors::codes::ErrorCode;
 use app_models::errors::model::ApiErrorBuilder;
 use app_models::utils::converter::{deserialize_payload, serialize_payload};
+use app_models::Result;
 use axum::body::Bytes;
 use axum::extract::Path;
 use axum::http::header::HeaderMap;
@@ -22,7 +22,6 @@ pub async fn rpc_handler(
     body: Option<Bytes>,
 ) -> impl IntoResponse {
     let json = is_accept_json(headers.get_all("accept"));
-
 
     let response = rpc_split(json, method_name, body).await;
     let response = response.unwrap_or_else(|err| {
@@ -43,7 +42,10 @@ pub async fn rpc_handler(
     } else {
         headers.insert("content-type", "application/cbor".parse().unwrap());
     }
-    headers.insert("content-length", response.len().to_string().parse().unwrap());
+    headers.insert(
+        "content-length",
+        response.len().to_string().parse().unwrap(),
+    );
     (StatusCode::OK, headers, response)
 }
 

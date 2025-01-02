@@ -23,6 +23,3 @@ tokio = { version = "1", features = ["full"] }
 envconfig = { version = "0" }
 
 app-models = { path = "./packages/app-models" }
-
-anyhow = "1"
-thiserror = "2"
