@@ -1,0 +1,16 @@
+[package]
+name = "app-models"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_cbor = "0"
+serde_json = { version = "1" }
+serde_bytes = "0"
+strum = { version = "0.26.3", features = ["derive", "strum_macros"] }
+derive_builder = { version = "0"}
+bytes = { version = "1", features = ["serde"] }
+
+anyhow = "1"
+thiserror = "2"
