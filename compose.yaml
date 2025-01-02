@@ -1,0 +1,10 @@
+services:
+  tracking:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "4317:4317" # OpenTelemetry gRPC receiver
+      - "4318:4318" # OpenTelemetry receiver
+      - "14268:14268" # Jaeger receiver
+      - "16686:16686" # Jaeger UI
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
