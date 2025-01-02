@@ -13,7 +13,7 @@ tracing-opentelemetry = "0.28.0"
 tracing = { version = "0" }
 prometheus = { version = "0" }
 
-axum = { version = "0.7.9", features = ["tracing", "tokio", "macros"] }
+axum = { version = "0.8.1", features = ["tracing", "tokio", "macros"] }
 axum-otel-metrics = { version = "0.9.1" }
 axum-tracing-opentelemetry = { version = "0.25.0" }
 tower-http = { version = "0.6", features = ["compression-full", "cors"] }
