@@ -20,6 +20,11 @@ tower-http = { version = "0.6", features = ["compression-full", "cors"] }
 
 tokio = { version = "1", features = ["full"] }
 
+diesel = { version = "2", features = ["postgres", "chrono"] }
+diesel-async = { version = "0", features = ["postgres", "deadpool", "async-connection-wrapper", "sync-connection-wrapper"] }
+diesel_migrations = { version = "2", features = ["postgres"] }
+
 envconfig = { version = "0" }
+derive_builder = { version = "0" }
 
 app-models = { path = "./packages/app-models" }

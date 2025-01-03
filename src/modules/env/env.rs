@@ -2,11 +2,13 @@ use envconfig::Envconfig;
 
 #[derive(Envconfig, Clone)]
 pub struct EnvConfig {
-    // #[envconfig(from = "DB_HOST", default = "localhost")]
-    // pub db_host: String,
-    //
-    // #[envconfig(from = "DB_PORT", default = "5432")]
-    // pub db_port: u16,
+    #[envconfig(
+        from = "DB_URL"
+    )]
+    pub db_url: String,
+
+    #[envconfig(from = "DB_MAX_THREAD_POOL", default = "10")]
+    pub db_max_thread_pool: usize,
 
     #[envconfig(from = "HTTP_HOST", default = "0.0.0.0")]
     pub http_host: String,
@@ -26,15 +28,9 @@ pub struct EnvConfig {
     )]
     pub otlp_metric_endpoint: String,
 
-    #[envconfig(
-        from = "OTLP_SERVICE_NAME",
-        default = "rust-app-example"
-    )]
+    #[envconfig(from = "OTLP_SERVICE_NAME", default = "rust-app-example")]
     pub otlp_service_name: String,
 
-    #[envconfig(
-        from = "OTLP_VERSION",
-        default = "0.1.0"
-    )]
+    #[envconfig(from = "OTLP_VERSION", default = "0.1.0")]
     pub otlp_version: String,
 }

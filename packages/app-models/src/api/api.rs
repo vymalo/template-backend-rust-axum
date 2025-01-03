@@ -12,14 +12,14 @@ pub enum ApiResponse {
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Builder)]
 pub struct Page<T> {
-    pub page: i32,
-    pub per_page: i32,
-    pub total: i32,
+    pub page: i64,
+    pub per_page: i64,
+    pub total: i64,
     pub items: Vec<T>,
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Builder)]
 pub struct Pagination {
-    pub page: i32,
-    pub per_page: i32,
+    pub page: i64,
+    pub per_page: i64,
 }

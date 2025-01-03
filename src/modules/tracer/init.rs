@@ -10,7 +10,7 @@ use std::time::Duration;
 use opentelemetry::trace::TracerProvider as _;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-pub fn init_tracing(
+pub async fn init_tracing(
     EnvConfig {
         otlp_metric_endpoint,
         otlp_span_endpoint,
