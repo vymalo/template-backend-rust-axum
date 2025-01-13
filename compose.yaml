@@ -32,6 +32,11 @@ services:
       ADMINER_PLUGINS: ${ADMINER_PLUGINS:-tables-filter tinymce}
 
   app:
+    deploy:
+      resources:
+        limits:
+          memory: 750M
+          cpus: 0.5
     build:
       context: .
       dockerfile: Dockerfile
@@ -41,7 +46,7 @@ services:
       OTLP_METRIC_ENDPOINT: http://tracking:4318/v1/metrics
       OTLP_SERVICE_NAME: app_rust
       OTLP_VERSION: 1.0.0-rc1
-      LOG_LEVEL: ${LOG_LEVEL:-info}
+      LOG_LEVEL: ${LOG_LEVEL:-error}
     ports:
       - ${APP_PORT:-3000}:3000
     depends_on:
@@ -49,6 +54,18 @@ services:
     links:
       - postgres
 
+  artillery:
+    image: artilleryio/artillery
+    command:
+      - "run"
+      - "-o"
+      - "/tmp/artillery/test-run-report.json"
+      - "/scripts/script.yaml"
+    volumes:
+      - .docker/artillery:/scripts
+      - .docker/tmp:/tmp/artillery
+    depends_on:
+      - app
 
 volumes:
   db: { }
