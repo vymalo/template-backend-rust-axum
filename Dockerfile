@@ -11,16 +11,44 @@ COPY ./ ./
 
 RUN cargo build --release
 
-FROM base
+FROM debian as dep
 
-# Create non-root user
-RUN addgroup -S -g 1001 app && adduser -S app -G app -u 1001
+RUN apt-get update && apt-get install -y libpq5
 
-COPY --from=builder --chown=app:app /app/backend-rust-hyper/target/release/backend-rust-hyper /app/backend-rust-hyper
+# Dependencies for libpq (used by diesel)
+RUN mkdir /deps && \
+  cp /usr/lib/*-linux-gnu/libpq.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libgssapi_*.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libunistring.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libidn*.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libkeyutils.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libtasn1.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libnettle.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libhogweed.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libgmp.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libffi.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libp11-kit.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libkrb*.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libcom_err.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libk5crypto.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libsasl2.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libgnutls.so* /deps && \
+  cp /usr/lib/*-linux-gnu/liblber-*.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libldap-*.so* /deps && \
+  cp /usr/lib/*-linux-gnu/libgcc_s.so* /deps
 
-EXPOSE 8000
+FROM gcr.io/distroless/base-debian12
 
-# Change the user to the non-root user
-USER app
+LABEL maintainer="Stephane Segning <selastlambou@gmail.com>"
+LABEL org.opencontainers.image.description="UI Frontend for Vymalo Projects"
 
-CMD ["/app/backend-rust-hyper"]
+WORKDIR /app
+
+COPY --from=builder /app/target/release/backend /app/backend
+COPY --from=dep /deps /usr/lib/
+
+EXPOSE 3000
+
+HEALTHCHECK --start-period=5s CMD wget --quiet --tries=1 --spider http://localhost:3000/health || exit 1
+
+CMD ["/app/backend"]
