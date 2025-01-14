@@ -8,7 +8,7 @@ use gen_server::models::Todo;
 #[diesel(table_name = crate::modules::db::schema::todos)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct TodoEntity {
-    pub id: uuid::Uuid,
+    pub id: String,
     pub created_at: Option<NaiveDateTime>,
     pub updated_at: Option<NaiveDateTime>,
     pub metadata: Option<serde_json::Value>,

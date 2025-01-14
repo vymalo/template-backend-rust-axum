@@ -42,6 +42,8 @@ FROM gcr.io/distroless/base-debian12
 LABEL maintainer="Stephane Segning <selastlambou@gmail.com>"
 LABEL org.opencontainers.image.description="UI Frontend for Vymalo Projects"
 
+ENV RUST_LOG=warn
+
 WORKDIR /app
 
 COPY --from=builder /app/target/release/backend /app/backend

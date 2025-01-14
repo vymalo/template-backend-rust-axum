@@ -21,16 +21,17 @@ tower-http = { version = "0.6", features = ["compression-full", "cors"] }
 
 tokio = { version = "1", features = ["full"] }
 
-diesel = { version = "2", features = ["postgres", "postgres_backend", "chrono", "serde_json", "time", "uuid"] }
+diesel = { version = "2", features = ["postgres", "postgres_backend", "chrono", "serde_json", "time"] }
 diesel-async = { version = "0", features = ["postgres", "deadpool", "async-connection-wrapper", "sync-connection-wrapper"] }
 diesel_migrations = { version = "2", features = ["postgres"] }
 
-uuid = { version = "1", features = ["serde", "v4"] }
-serde_json = { version = "1" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["raw_value"] }
+serde_cbor = { version = "0" }
 
 envconfig = { version = "0" }
 derive_builder = { version = "0" }
 anyhow = { version = "1" }
 
-
 gen-server = { path = "./packages/gen-server", features = ["conversion"] }
+cuid2 = { version = "0" }

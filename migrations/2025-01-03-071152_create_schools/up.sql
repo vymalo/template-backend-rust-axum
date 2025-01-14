@@ -1,7 +1,7 @@
 -- Create the todos table
 CREATE TABLE todos
 (
-    id          UUID PRIMARY KEY,
+    id          TEXT PRIMARY KEY,
     created_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     metadata    JSONB                    DEFAULT '{}',

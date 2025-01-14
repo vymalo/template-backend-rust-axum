@@ -1,7 +1,7 @@
 use crate::modules::router::middlewares::apply_common_middlewares;
 use crate::services::health::health::health;
 use crate::services::metrics::handler::metrics_handler;
-use crate::services::todos::handler::TodoServiceBuilder;
+use crate::services::todos::handler::TodosServiceBuilder;
 use anyhow::Result;
 use axum::routing::get;
 use axum::Router;
@@ -12,7 +12,7 @@ use diesel_async::AsyncPgConnection;
 use gen_server::server::new;
 
 pub async fn router(metrics: HttpMetricsLayer, pool: Pool<AsyncPgConnection>) -> Result<Router> {
-    let todo_service = TodoServiceBuilder::default().pool(pool).build()?;
+    let todo_service = TodosServiceBuilder::default().pool(pool).build()?;
 
     // Create the main router
     let app = new(todo_service)

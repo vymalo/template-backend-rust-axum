@@ -17,15 +17,16 @@ externalDocs:
   url: https://w4.ssegning.com
 servers: [ ]
 tags:
-  - name: todo
+  - name: todos
     description: All about managing todos
 paths:
-  /api/todos:
+  /api/todos/json:
     get:
+      deprecated: true
       tags:
-        - todo
+        - todos-test
       summary: Get todo
-      operationId: getTodos
+      operationId: getTodosJson
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -36,8 +37,6 @@ paths:
             application/json:
               schema:
                 type: array
-                minItems: 1
-                maxItems: 10
                 items:
                   $ref: '#/components/schemas/Todo'
         400:
@@ -52,40 +51,90 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /api/todos/test-cbor:
+    get:
+      deprecated: true
+      tags:
+        - todos-test
+      summary: Get todo test cbor
+      operationId: getTodosTestCbor
+      responses:
+        200:
+          description: 'successful operation'
+          content:
+            application/cbor:
+              schema:
+                type: string
+                format: binary
+  /api/todos:
+    get:
+      tags:
+        - todos
+      summary: Get todo
+      operationId: getTodos
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        200:
+          description: 'successful operation'
+          content:
+            application/cbor:
+              schema:
+                type: string
+                format: binary
+        400:
+          description: 'wrong content provided'
+          content:
+            application/cbor:
+              schema:
+                type: string
+                format: binary
+        500:
+          description: 'Internal server'
+          content:
+            application/cbor:
+              schema:
+                type: string
+                format: binary
     post:
       tags:
-        - todo
+        - todos
       summary: Create Todo
       operationId: createTodo
       requestBody:
         content:
-          application/json:
+          application/cbor:
             schema:
-              $ref: '#/components/schemas/UpdateTodo'
+              type: string
+              format: binary
         required: true
       responses:
         201:
           description: 'successful operation'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Todo'
+                type: string
+                format: binary
         400:
           description: 'wrong content provided'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: string
+                format: binary
         500:
           description: 'Internal server'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: string
+                format: binary
   /api/todos/{id}:
     get:
       tags:
-        - todo
+        - todos
       summary: Get todo
       operationId: getTodo
       parameters:
@@ -94,24 +143,27 @@ paths:
         200:
           description: 'successful operation'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Todo'
+                type: string
+                format: binary
         400:
           description: 'wrong content provided'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: string
+                format: binary
         500:
           description: 'Internal server'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: string
+                format: binary
     delete:
       tags:
-        - todo
+        - todos
       summary: Delete todo
       operationId: deleteTodo
       parameters:
@@ -122,47 +174,53 @@ paths:
         400:
           description: 'wrong content provided'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: string
+                format: binary
         500:
           description: 'Internal server'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: string
+                format: binary
     put:
       tags:
-        - todo
+        - todos
       summary: Update todo
       operationId: updateTodo
       parameters:
         - $ref: '#/components/parameters/id'
       requestBody:
         content:
-          application/json:
+          application/cbor:
             schema:
-              $ref: '#/components/schemas/UpdateTodo'
+              type: string
+              format: binary
         required: true
       responses:
-        201:
+        200:
           description: 'successful operation'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Todo'
+                type: string
+                format: binary
         400:
           description: 'wrong content provided'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: string
+                format: binary
         500:
           description: 'Internal server'
           content:
-            application/json:
+            application/cbor:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: string
+                format: binary
 components:
   parameters:
     limit:

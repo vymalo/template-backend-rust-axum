@@ -20,7 +20,7 @@ pub fn apply_common_middlewares(router: Router) -> Router {
         .allow_origin(Any);
 
     let compression_predicate = DefaultPredicate::new()
-        .and(NotForContentType::new("application/cbor"))
+        .and(NotForContentType::new("application/octet-stream"))
         .and(SizeAbove::new(0));
 
     let compression_layer = CompressionLayer::new()

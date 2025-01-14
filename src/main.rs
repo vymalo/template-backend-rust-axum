@@ -11,6 +11,7 @@ use tracing::{debug, warn};
 mod domain;
 mod modules;
 mod services;
+mod api;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

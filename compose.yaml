@@ -98,5 +98,7 @@ services:
       - /packages/gen-server
       - --package-name
       - gen-server
+      - --additional-properties
+      - disableValidator=true
 volumes:
   db: { }
