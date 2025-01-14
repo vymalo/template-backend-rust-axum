@@ -1,0 +1,254 @@
+openapi: 3.0.3
+info:
+  title: Todo OpenApi
+  description: |
+    CRUD for todo using Cbor. More at [https://w4.ssegning.com](https://w4.ssegning.com)
+  termsOfService: https://w4.ssegning.com/res/tos
+  contact:
+    email: hello@vymalo.com
+    name: Vymalo Todo Team
+  license:
+    name: MIT
+  version: 0.1.0
+externalDocs:
+  description: |
+    Find out more about Managing your todo from afar. Let's meet on 
+    our website 😉.
+  url: https://w4.ssegning.com
+servers: [ ]
+tags:
+  - name: todo
+    description: All about managing todos
+paths:
+  /api/todos:
+    get:
+      tags:
+        - todo
+      summary: Get todo
+      operationId: getTodos
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        200:
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 1
+                maxItems: 10
+                items:
+                  $ref: '#/components/schemas/Todo'
+        400:
+          description: 'wrong content provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: 'Internal server'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - todo
+      summary: Create Todo
+      operationId: createTodo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTodo'
+        required: true
+      responses:
+        201:
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        400:
+          description: 'wrong content provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: 'Internal server'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/todos/{id}:
+    get:
+      tags:
+        - todo
+      summary: Get todo
+      operationId: getTodo
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        400:
+          description: 'wrong content provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: 'Internal server'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - todo
+      summary: Delete todo
+      operationId: deleteTodo
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        202:
+          description: 'successful operation'
+        400:
+          description: 'wrong content provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: 'Internal server'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - todo
+      summary: Update todo
+      operationId: updateTodo
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTodo'
+        required: true
+      responses:
+        201:
+          description: 'successful operation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        400:
+          description: 'wrong content provided'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: 'Internal server'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: Number of items to return
+      required: false
+      schema:
+        type: integer
+        format: int32
+    offset:
+      name: offset
+      in: query
+      description: The number of items to skip before starting to collect the result set
+      required: false
+      schema:
+        type: integer
+        format: int32
+    id:
+      name: id
+      in: path
+      required: true
+      description: The slug name or id of the todo
+      schema:
+        $ref: '#/components/schemas/Cuid'
+  schemas:
+    Model:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Cuid'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        meta:
+          type: object
+          additionalProperties: true
+          default: { }
+          example: { }
+      required:
+        - id
+        - created_at
+        - updated_at
+    CoreTodo:
+      properties:
+        title:
+          type: string
+          example: Learn TypeScript
+        description:
+          type: string
+          example: |
+            I want to learn TypeScript because it's a great language.
+      required:
+        - title
+    UpdateTodo:
+      allOf:
+        - $ref: '#/components/schemas/CoreTodo'
+        - type: object
+          properties:
+            meta:
+              type: object
+              additionalProperties: true
+              default: { }
+              example: { }
+    Todo:
+      allOf:
+        - $ref: '#/components/schemas/Model'
+        - $ref: '#/components/schemas/CoreTodo'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: number
+      required:
+        - message
+        - code
+    Cuid:
+      type: string
+      format: cuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

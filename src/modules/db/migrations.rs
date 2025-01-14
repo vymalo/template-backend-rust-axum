@@ -1,4 +1,4 @@
-use app_models::Result;
+use anyhow::Result;
 use diesel::Connection;
 use diesel_async::async_connection_wrapper::AsyncConnectionWrapper;
 use diesel_async::AsyncPgConnection;

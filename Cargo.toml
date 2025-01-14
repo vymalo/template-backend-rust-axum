@@ -14,17 +14,23 @@ tracing = { version = "0" }
 prometheus = { version = "0" }
 
 axum = { version = "0.7.9", features = ["tracing", "tokio", "macros"] }
+axum-extra = { version = "0.9", features = ["cookie", "multipart"] }
 axum-otel-metrics = { version = "0.9.1" }
 axum-tracing-opentelemetry = { version = "0.25.0" }
 tower-http = { version = "0.6", features = ["compression-full", "cors"] }
 
 tokio = { version = "1", features = ["full"] }
 
-diesel = { version = "2", features = ["postgres", "chrono"] }
+diesel = { version = "2", features = ["postgres", "postgres_backend", "chrono", "serde_json", "time", "uuid"] }
 diesel-async = { version = "0", features = ["postgres", "deadpool", "async-connection-wrapper", "sync-connection-wrapper"] }
 diesel_migrations = { version = "2", features = ["postgres"] }
 
+uuid = { version = "1", features = ["serde", "v4"] }
+serde_json = { version = "1" }
+
 envconfig = { version = "0" }
 derive_builder = { version = "0" }
+anyhow = { version = "1" }
 
-app-models = { path = "./packages/app-models" }
+
+gen-server = { path = "./packages/gen-server", features = ["conversion"] }

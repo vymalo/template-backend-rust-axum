@@ -6,7 +6,7 @@ use envconfig::Envconfig;
 use opentelemetry::global;
 use std::net::SocketAddr;
 use tokio::net::TcpListener;
-use tracing::{debug, info};
+use tracing::{debug, warn};
 
 mod domain;
 mod modules;
@@ -26,7 +26,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     debug!(config.http_port, config.http_host, "Will start");
 
     // Start the server
-    info!("Server running on http://{:?}", listener.local_addr()?);
+    warn!("Server running on http://{:?}", listener.local_addr()?);
     let app = router(metrics, db_pool).await?;
     axum::serve(listener, app).await?;
 

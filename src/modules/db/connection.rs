@@ -1,6 +1,6 @@
 use crate::modules::db::migrations::run_migrations;
 use crate::modules::env::env::EnvConfig;
-use app_models::Result;
+use anyhow::Result;
 use diesel_async::pooled_connection::deadpool::Pool;
 use diesel_async::pooled_connection::AsyncDieselConnectionManager;
 use diesel_async::AsyncPgConnection;
