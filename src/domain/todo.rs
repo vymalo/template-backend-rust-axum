@@ -28,7 +28,9 @@ impl Into<Todo> for TodoEntity {
                 .updated_at
                 .map(|x| x.and_utc())
                 .unwrap_or_else(|| chrono::Utc::now()),
-            meta: None,
+            meta: self
+                .metadata
+                .map(|x| serde_json::from_value(x).expect("Failed to deserialize meta")),
             title: self.title,
             description: self.description,
         }

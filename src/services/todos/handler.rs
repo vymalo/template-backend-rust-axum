@@ -42,8 +42,7 @@ impl Todo for TodoService {
             .updated_at(None)
             .title(body_title)
             .description(body_description)
-            //.metadata(body_meta.map(serde_json::Value::from))
-            .metadata(None)
+            .metadata(body_meta.map(|meta| serde_json::to_value(meta).expect("Failed to serialize meta")))
             .build()
             .expect("Failed to build todo");
 
